@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const Schema = mongoose.Schema;
 
 const restaurant= require('./routes/api/restaurant');
-
 const app = express();
 
 //DB
