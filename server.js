@@ -23,13 +23,6 @@ mongoose
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());    
 
-app.get('/', (req,res)=>{
-    res.send('Hola estamos en la raiz');
-});
-
-router.get('/test', (req,res)=>{
-    res.json({msg:'users Works!'});
-});
 
 //Use Router Restaurant Statistic
 app.use('/api/restaurant',restaurant);
