@@ -5,24 +5,118 @@ const router= express.Router();
 
 const Restaurant = require('../../models/restaurants');
 const { json } = require('body-parser');
+
+router.post('/',(req,res)=>
+{
+    let params = {
+        id:'',
+        rating:'',
+        name:'',
+        site:'',
+        email:'',
+        phone:'',
+        street:'',
+        city:'',
+        state:'',
+        lat:0,
+        lng:0
+    }
+    if(req.body.id)params.id=req.body.id;
+    if(req.body.rating)params.rating=req.body.rating;
+    if(req.body.name)params.name=req.body.name;
+    if(req.body.site)params.site=req.body.site;
+    if(req.body.email)params.email=req.body.email;
+    if(req.body.phone)params.phone=req.body.phone;
+    if(req.body.street)params.street=req.body.street;
+    if(req.body.city)params.city=req.body.city;
+    if(req.body.state)params.state=req.body.state;
+    if(req.body.lat)params.lat=req.body.lat;
+    if(req.body.lng)params.lng=req.body.lng;
+    
+Restaurant.findOne({id:params.id}).then(r=>{
+    if(r){
+        res.status(400).json({msg:'Hubo errores al guardar los datos'})
+    }
+})
+    
+new Restaurant(params
+    ).save()
+    .then(result=> res.json(result))
+    .catch(err=>res.json({msg:'Hubo errores al guardar los datos'}))
+
+});
+
 router.get('/statistics',(req,res)=>
 {
-    const result = getDataGis(req.body.latitude, req.body.longitude,req.body.radius).then((data) => {
-        console.log(req.body);
-        if(data){
-            res.json(data);
-        }
-        else{
-            res.json({msg:'No se encotraron los datos solicitados'});
-        }
-       
-    }).catch(err => {
-        console.log(err)
+    const result = getDataGis(req.body.latitude, req.body.longitude, req.body.radius)
+        .then((data) => {
+            console.log(req.body);
+            if (data) {
+                res.json(data);
+            } else {
+                res.json({
+                    msg: 'No se encotraron los datos solicitados'
+                });
+            }
+
+        }).catch(err => {
+            console.log(err)
+        });
+
+});
+router.delete('/delete',(req,res)=>
+{
+    let puntosGis = Restaurant.findOneAndDelete({id:req.body.id}).then((r)=>{
+        res.json({msg:"Los datos se han eliminado"});
+    }, (err)=>{
+        res.json({msg:"No se encontró informacion"});
+
     });
 
 });
 
-  getStatist = async (lat,long)=>{
+router.put('/', (req, res) => {
+let params = {
+    id:'',
+    rating:'',
+    name:'',
+    site:'',
+    email:'',
+    phone:'',
+    street:'',
+    city:'',
+    state:'',
+    lat:0,
+    lng:0
+}
+if(req.body.id)params.id=req.body.id;
+if(req.body.rating)params.rating=req.body.rating;
+if(req.body.name)params.name=req.body.name;
+if(req.body.site)params.site=req.body.site;
+if(req.body.email)params.email=req.body.email;
+if(req.body.phone)params.phone=req.body.phone;
+if(req.body.street)params.street=req.body.street;
+if(req.body.city)params.city=req.body.city;
+if(req.body.state)params.state=req.body.state;
+if(req.body.lat)params.lat=req.body.lat;
+if(req.body.lng)params.lng=req.body.lng;
+
+let actualizar = Restaurant
+    .findOneAndUpdate({
+        id: params.id
+    }, {
+        $set: params
+    }, {
+        new: true
+    })
+    .then((r) => {
+        res.json({
+            r
+        });
+    });
+});
+
+getStatist = async (lat,long)=>{
     
     //console.log(`lat a${lat} ${long}`);
     let restaurant = await Restaurant.find({
