@@ -23,7 +23,6 @@ mongoose
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());    
 
-
 //Use Router Restaurant Statistic
 app.use('/api/restaurant',restaurant);
 
