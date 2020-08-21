@@ -5,44 +5,6 @@ const router= express.Router();
 
 const Restaurant = require('../../models/restaurants');
 const { json } = require('body-parser');
-
-router.get('/test',(req,res)=>
-    res.json({msg:'Trabajando Correctamente'})
-);
-
-router.post('/registrorest',(req,res)=>
-{
-    const newRest = new Restaurant({
-        id:'851f799f-0852-439e-b9b2-df92c43e7672',
-        rating:1,
-        name:'Barajas, Bahena and Kano',
-        site:'https://federico.com',
-        email:'Anita_Mata71@hotmail.com',
-        phone:'534814204',
-        street:'82247 Mariano Entrada',
-        city:'MÃ©rida Alfredotown',
-        state:'Durango',
-        lat:19.44005705,
-        lng:-99.1270471
-    });
-
-    newRest.save()
-    .then(r=> res.json({msg:'guardado correctament'}))
-    .catch(err=>console.log(err));
-
-});
-
-router.get('/testP',(req,res)=>
-{
-    const result = getStatist(req.body.lat, req.body.long).then((data) => {
-        console.log(req.body);
-        res.json(data);
-    }).catch(err => {
-        console.log(err)
-    });
-
-});
-
 router.get('/statistics',(req,res)=>
 {
     const result = getDataGis(req.body.latitude, req.body.longitude,req.body.radius).then((data) => {
@@ -112,7 +74,7 @@ if(puntosGis){
         c: 0,
         rating:0
     };
-    
+
  // add in distance d = acos( sinφ₁⋅sinφ₂ + cosφ₁⋅cosφ₂⋅cosΔλ ) ⋅ R
     let dist = acos(sin(p.lat * π / 180) * sin(parseFloat(lat) * π / 180) + cos(p.lat * π / 180) * cos(parseFloat(lat) * π / 180) * cos(p.lng * π / 180 - parseFloat(lon) * π / 180)) * R;
 
