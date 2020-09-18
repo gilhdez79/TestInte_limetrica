@@ -4,9 +4,9 @@ const router  = express.Router();
 const bodyParser = require('body-parser');
 const Schema = mongoose.Schema;
 
-const restaurant= require('./routes/api/restaurant');
+const routertareas= require('./routes/api/routertareas');
 const app = express();
-
+app.use(express.json());
 //DB
 const db = require('./config/keys').mongoURI;
 
@@ -23,9 +23,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());    
 
 //Use Router Restaurant Statistic
-app.use('/api/restaurant',restaurant);
+app.use('/api/tarea',routertareas);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.listen(port, ()=>console.log( `server running on port ${port}`));
 
