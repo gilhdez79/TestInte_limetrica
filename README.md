@@ -36,3 +36,7 @@ Test API Postman
 ```
 [PlDe]: <https://github.com/gilhdez79/TestInte_limetrica.git>
 [PlHe]: <https://dashboard.heroku.com/apps/salty-forest-45682>
+
+```sh
+$sudo docker run 
+```
